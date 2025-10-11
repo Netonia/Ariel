@@ -1,0 +1,57 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime JSRuntime
+
+<div class="app-container">
+    <header class="app-header">
+        <h1 class="app-title">Ariel</h1>
+        <button @onclick="ToggleTheme" class="theme-toggle" title="Toggle theme">
+            <span class="theme-icon">@(isDarkMode ? "☀️" : "🌙")</span>
+        </button>
+    </header>
+    
+    <main class="app-main">
+        @Body
+    </main>
+    
+    <footer class="app-footer">
+        <span>Powered by <a href="https://mermaid.js.org/" target="_blank">Mermaid.js</a></span>
+    </footer>
+</div>
+
+@code {
+    private bool isDarkMode = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                var theme = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "ariel-theme");
+                isDarkMode = theme != "light";
+                await ApplyTheme();
+                StateHasChanged();
+            }
+            catch { }
+        }
+    }
+
+    private async Task ToggleTheme()
+    {
+        isDarkMode = !isDarkMode;
+        await ApplyTheme();
+    }
+
+    private async Task ApplyTheme()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("setTheme", isDarkMode ? "dark" : "light");
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "ariel-theme", isDarkMode ? "dark" : "light");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error applying theme: {ex.Message}");
+        }
+    }
+}
