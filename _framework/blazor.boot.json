@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "Ariel",
   "resources": {
-    "hash": "sha256-nuYC30DcGRSsDpKguaCJikECqn5D1udBxYkjeA7yOCg=",
+    "hash": "sha256-3MKWeme6s8LoSg+Mfky/vdm+rMs9TeTfOB/aiuOlJ4E=",
     "fingerprinting": {
       "Microsoft.AspNetCore.Components.cvv5zory2d.wasm": "Microsoft.AspNetCore.Components.wasm",
       "Microsoft.AspNetCore.Components.Web.uwmfhovd1h.wasm": "Microsoft.AspNetCore.Components.Web.wasm",
@@ -34,7 +34,7 @@
       "System.Text.Json.coj5dfj14h.wasm": "System.Text.Json.wasm",
       "System.Text.RegularExpressions.3ddyst6dmo.wasm": "System.Text.RegularExpressions.wasm",
       "System.Private.CoreLib.j3nzzo96b6.wasm": "System.Private.CoreLib.wasm",
-      "Ariel.thu91b3ba3.wasm": "Ariel.wasm",
+      "Ariel.0v22twtoke.wasm": "Ariel.wasm",
       "dotnet.js": "dotnet.js",
       "dotnet.native.9ih887ebfz.js": "dotnet.native.js",
       "dotnet.native.21mns4qp4i.wasm": "dotnet.native.wasm",
@@ -91,7 +91,7 @@
       "System.Text.Encodings.Web.08ymq1fvcr.wasm": "sha256-QPumUm/+bRPi/T+QpPMfrlCeezAnzRk6CmD/iBskgiw=",
       "System.Text.Json.coj5dfj14h.wasm": "sha256-JNTa+hz/l9OnEgXZlEjywRui9FvNkQdVcjQTuuprMuE=",
       "System.Text.RegularExpressions.3ddyst6dmo.wasm": "sha256-J0h0LpWzXEYF0E+lUOiWbLF6UobUv3nu0XKBs3nMIoQ=",
-      "Ariel.thu91b3ba3.wasm": "sha256-oZ9l5XDsb0wR5xnC96IMblYhbXRWJDMMUJiZTx5NNBk="
+      "Ariel.0v22twtoke.wasm": "sha256-/Adkb+unU31OFylR9DkxCwcUuJt+9kP295YhIkkZ13w="
     }
   },
   "cacheBootResources": true,
