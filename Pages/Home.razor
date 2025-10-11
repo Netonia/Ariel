@@ -1,0 +1,117 @@
+﻿@page "/"
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Ariel - Mermaid Previewer</PageTitle>
+
+<div class="editor-container">
+    <div class="editor-pane">
+        <div class="pane-header">
+            <h2>Markdown Editor</h2>
+        </div>
+        <textarea @bind="markdownInput" @bind:event="oninput" 
+                  @bind:after="OnInputChanged"
+                  class="markdown-editor" 
+                  placeholder="Enter your markdown with mermaid diagrams here..."></textarea>
+    </div>
+    <div class="preview-pane">
+        <div class="pane-header">
+            <h2>Preview</h2>
+            <div class="export-buttons">
+                <button @onclick="ExportSvg" class="btn btn-sm">SVG</button>
+                <button @onclick="ExportPng" class="btn btn-sm">PNG</button>
+            </div>
+        </div>
+        <div id="mermaid-preview" class="preview-content"></div>
+    </div>
+</div>
+
+@code {
+    private string markdownInput = @"# Example Diagram
+
+```mermaid
+graph TD
+    A[Start] --> B{Decision}
+    B -->|Yes| C[Option 1]
+    B -->|No| D[Option 2]
+```";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadFromLocalStorage();
+            await RenderMermaid();
+        }
+    }
+
+    private async Task OnInputChanged()
+    {
+        await SaveToLocalStorage();
+        await RenderMermaid();
+    }
+
+    private async Task RenderMermaid()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("renderMermaid", markdownInput);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error rendering mermaid: {ex.Message}");
+        }
+    }
+
+    private async Task LoadFromLocalStorage()
+    {
+        try
+        {
+            var stored = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "ariel-markdown");
+            if (!string.IsNullOrEmpty(stored))
+            {
+                markdownInput = stored;
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading from localStorage: {ex.Message}");
+        }
+    }
+
+    private async Task SaveToLocalStorage()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "ariel-markdown", markdownInput);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error saving to localStorage: {ex.Message}");
+        }
+    }
+
+    private async Task ExportSvg()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("exportDiagramAsSvg");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error exporting SVG: {ex.Message}");
+        }
+    }
+
+    private async Task ExportPng()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("exportDiagramAsPng");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error exporting PNG: {ex.Message}");
+        }
+    }
+}
